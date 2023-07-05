@@ -25,7 +25,7 @@ public class LoginCheckFilter implements Filter {
        String uri = request.getRequestURI();
 //        不需要处理的请求 如何匹配/backend/index.html 使用路径匹配器
         String[] URLs= new String[]{
-                "/employee/login","employee/logout","backend/**","front/**"
+                "/employee/login","/employee/logout","/backend/**","/front/**"
         };
         //    2.判断本次请求是否需要处理
         boolean check = check(uri,URLs);
