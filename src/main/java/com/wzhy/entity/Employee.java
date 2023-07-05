@@ -26,9 +26,10 @@ public class Employee implements Serializable {
     private String idNumber; //yml中改了驼峰 所以直接写驼峰 不需要自行转换
 
     private Integer status;
-
+    @TableField(fill = FieldFill.INSERT) //插入时填充
     private LocalDateTime createTime;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE) //插入和更新时
     private LocalDateTime updateTime;
 
     @TableField(fill = FieldFill.INSERT)

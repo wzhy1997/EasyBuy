@@ -62,12 +62,12 @@ public class EmployeeController {
 //        设置初始密码 并密码加密
         e.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
 //       设置创建时间为系统时间
-        e.setCreateTime(LocalDateTime.now());
-        e.setUpdateTime(LocalDateTime.now());
+//        e.setCreateTime(LocalDateTime.now());
+//        e.setUpdateTime(LocalDateTime.now());
 //        获得当前用户id
         Long empId = (Long)request.getSession().getAttribute("employee");
-        e.setCreateUser(empId);
-        e.setUpdateUser(empId);
+//        e.setCreateUser(empId);
+//        e.setUpdateUser(empId);
         employeeService.save(e);
         return R.success("新增员工成功");
 //        username唯一约束 添加验证
@@ -88,5 +88,28 @@ public class EmployeeController {
 //        执行查询
         employeeService.page(pageInfo,qw);
         return R.success(pageInfo);
+    }
+
+//    禁用启用按钮 本质是对于status更新 根据id修改员工信息 动态更新
+    @PutMapping
+    public R<String> update(HttpServletRequest request,@RequestBody  Employee employee){
+//        使用消息转换器
+            long id= (Long)request.getSession().getAttribute("employee");
+            log.info(employee.toString());
+//            employee.setUpdateTime(LocalDateTime.now());
+//            employee.setUpdateUser(id );
+//            这里有问题 因为id是long型 而js处理会丢精度 所以long转string
+            employeeService.updateById(employee);
+            return R.success("员工信息修改成");
+    }
+//    根据id查询用户
+    @GetMapping("/{id}")
+    public R<Employee> getById(@PathVariable Long id){
+        log.info("根据id查询 {}",id);
+        Employee e = employeeService.getById(id);
+        if(e!=null){
+            return R.success(e);
+        }
+        return R.error("不存在此用户");
     }
 }
